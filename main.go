@@ -21,9 +21,9 @@ func main() {
 
 	myFirstColonVar := "Loafs"
 
-	fmt.Println(MY_FIRST_CONST+",", myFirstColonVar+"!")
+	fmt.Printf("%s, %s!\n", MY_FIRST_CONST, myFirstColonVar)
 
 	fmt.Println()
-	fmt.Println(APP_NAME_SHORT+",", "v"+APP_VERSION)
+	fmt.Printf("%s, v%s\n", APP_NAME_SHORT, APP_VERSION)
 
 }
