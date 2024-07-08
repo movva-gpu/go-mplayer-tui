@@ -1,27 +1,46 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"os"
+	"time"
 
-const MY_FIRST_CONST string = "Hello"
+	"github.com/faiface/beep"
+	"github.com/faiface/beep/mp3"
+	"github.com/faiface/beep/speaker"
+)
 
-const PATCH_VERSION uint8 = 1
-const MINOR_VERSION uint8 = 0
-const MAJOR_VERSION uint8 = 0
-
-const APP_NAME string = "Go Music Player TUI"
-const APP_NAME_SHORT string = "gmp"
-
-const APP_LICENSE string = "MIT"
-const APP_AUTHOR string = "Danyella Strikann"
-const APP_URL string = "https://github.com/danyell/go-mplayer-tui"
-
-var APP_VERSION string = fmt.Sprintf("%d.%d.%d", MAJOR_VERSION, MINOR_VERSION, PATCH_VERSION)
+const audioFilePath string = "./Adikop - Bring Me Back (feat. Nieulotni) [NCS Release].mp3"
 
 func main() {
 
-	myFirstColonVar := "Loafs"
+	audioFile, err := os.Open(audioFilePath)
+	if err != nil {
+		panic(err)
+	}
 
-	fmt.Printf("%s, %s!\n", MY_FIRST_CONST, myFirstColonVar)
+	streamer, format, err := mp3.Decode(audioFile)
+	if err != nil {
+		panic(err)
+	}
+
+	speaker.Init(format.SampleRate, format.SampleRate.N(time.Second/10))
+		
+	done := make(chan bool)
+	speaker.Play(beep.Seq(streamer, beep.Callback(func() {
+		done <- true
+	})))
+
+	for {
+		select {
+		case <-done:
+			return
+		case <-time.After(time.Second):
+			speaker.Lock()
+			fmt.Println(format.SampleRate.D(streamer.Position()).Round(time.Second))
+			speaker.Unlock()
+		}
+	}
 
 	fmt.Println()
 	fmt.Printf("%s, v%s\n", APP_NAME_SHORT, APP_VERSION)
