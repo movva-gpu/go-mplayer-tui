@@ -18,7 +18,6 @@ import (
 	"github.com/nsf/termbox-go"
 )
 
-var audioFilePath string = os.Args[1]
 const defaultAudioFilePath string = "./Adikop - Bring Me Back (feat. Nieulotni) [NCS Release].mp3"
 
 func main() {
@@ -36,8 +35,9 @@ func main() {
 
 	defer termbox.Close()
 
-	if audioFilePath == "" {
-		audioFilePath = defaultAudioFilePath
+	audioFilePath := defaultAudioFilePath
+	if len(os.Args) > 1 && os.Args[1] != "" {
+		audioFilePath = os.Args[1]
 	}
 
 	audioFile, err := os.Open(audioFilePath)
@@ -104,13 +104,13 @@ func main() {
 				os.Exit(0)
 			case ev.Ch == 'm':
 				volume.Silent = !volume.Silent
-			case ev.Ch == '+' || ev.Ch == rune(termbox.KeyArrowUp):
+			case ev.Ch == '+' || ev.Key == termbox.KeyArrowUp:
 				volume.Silent = false
 
 				if volume.Volume < MAX_VOLUME {
 					volume.Volume += 0.5
 				}
-			case ev.Ch == '-' || ev.Ch == rune(termbox.KeyArrowDown):
+			case ev.Ch == '-' || ev.Key == termbox.KeyArrowDown:
 				if volume.Volume > MIN_VOLUME {
 					volume.Volume -= 0.5
 				}
