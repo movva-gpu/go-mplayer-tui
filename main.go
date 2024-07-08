@@ -89,15 +89,6 @@ func main() {
 	for {
 		drawUI(ctrl, volume, MIN_VOLUME)
 
-		// fmt.Println("Press the key [SPACE] to pause/resume")
-		// fmt.Println("Press the keys [+/-] to volume up/down")
-		// fmt.Println("Press the key [M] to mute/unmute")
-		// fmt.Println("Press the key [Q] to quit")
-
-		// fmt.Println("Paused: ", ctrl.Paused)
-		// fmt.Printf("%0.2f%%\n", math.Round((volume.Volume-(MIN_VOLUME))*(100-0)/(0-(MIN_VOLUME))+0))
-		// fmt.Println("Muted: ", volume.Silent && !lowVolumeMute)
-
 		ev := termbox.PollEvent()
 		if ev.Type == termbox.EventKey {
 			switch {
