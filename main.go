@@ -28,13 +28,6 @@ func main() {
 
 	defer termbox.Close()
 
-	err = termbox.Init()
-	if err != nil {
-		panic(err)
-	}
-
-	defer termbox.Close()
-
 	audioFilePath := defaultAudioFilePath
 	if len(os.Args) > 1 && os.Args[1] != "" {
 		audioFilePath = os.Args[1]

@@ -2,7 +2,7 @@ package main
 
 import "fmt"
 
-const PATCH_VERSION uint8 = 1
+const PATCH_VERSION uint8 = 2
 const MINOR_VERSION uint8 = 2
 const MAJOR_VERSION uint8 = 0
 
